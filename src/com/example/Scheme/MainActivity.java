@@ -107,7 +107,6 @@ public class MainActivity extends Activity {
                     Global.filename = filename;
 
                     Intent intent=new Intent(MainActivity.this,SchemeActivity.class);
-                    //intent.setData(uri);
                     startActivity(intent);
                     this.finish();
 
