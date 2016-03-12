@@ -92,6 +92,8 @@ public class MainActivity extends Activity {
                             "SD card is not avaiable/writeable right now.");
                     return;
                 }
+
+
                 String name = new DateFormat().format("yyyyMMdd_hhmmss", Calendar.getInstance(Locale.CHINA)) + ".jpg";
                 Toast.makeText(this, name, Toast.LENGTH_LONG).show();
                 Bundle bundle = data.getExtras();
@@ -100,8 +102,14 @@ public class MainActivity extends Activity {
                 FileOutputStream b = null;
                 //???????????????????????????????为什么不能直接保存在系统相册位置呢？？？？？？？？？？？？
                 File file = new File("/sdcard/myImage/");
-                file.mkdirs();// 创建文件夹
+                boolean res = file.mkdirs();// 创建文件夹
+
+
+                //Log.i("Testmkdir", "ans = "+ res);
+
+
                 String fileName = "/sdcard/myImage/" + name;
+                //sendBroadcast(fileName);
 
                 try {
                     b = new FileOutputStream(fileName);
@@ -116,6 +124,13 @@ public class MainActivity extends Activity {
                         e.printStackTrace();
                     }
                 }
+
+                Intent intent = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE);
+
+                File f = new File(fileName);
+                Uri uri = Uri.fromFile(f);
+                intent.setData(uri);
+                sendBroadcast(intent);//这个广播的目的就是更新图库，发了这个广播进入相册就可以找到你保存的图片了！，记得要传你更新的file哦
 
                 ((ImageView) findViewById(R.id.imageView)).setImageBitmap(bitmap);// 将图片显示在ImageView里
             }
@@ -143,5 +158,6 @@ public class MainActivity extends Activity {
                     break;
             }
         }
+
     }
 }
