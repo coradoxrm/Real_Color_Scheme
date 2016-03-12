@@ -4,19 +4,34 @@
               android:layout_width="fill_parent"
               android:layout_height="fill_parent"
 >
-    <Button
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:text="Camera"
-            android:id="@+id/Camera" android:layout_gravity="center_horizontal" android:layout_weight="1"/>
-    <Button
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:text="Album"
-            android:id="@+id/Album" android:layout_gravity="center_horizontal" android:layout_weight="1"/>
-    <Button
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:text="Repo"
-            android:id="@+id/Repo" android:layout_gravity="center_horizontal" android:layout_weight="1"/>
+
+    <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="250dp"
+            android:id="@+id/image" android:layout_gravity="center_horizontal"/>
+    <ListView
+            android:layout_width="wrap_content"
+            android:layout_height="179dp"
+            android:id="@android:id/list"
+    />
+    <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" android:gravity="bottom" android:layout_gravity="bottom">
+        <Button
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:text="true"
+                android:id="@+id/button" android:layout_weight="1"/>
+        <Button
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:text="iter"
+                android:id="@+id/button2" android:layout_weight="1"/>
+        <Button
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:text="false"
+                android:id="@+id/button3" android:layout_weight="1"/>
+    </LinearLayout>
 </LinearLayout>
