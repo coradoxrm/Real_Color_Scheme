@@ -2,29 +2,29 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
               android:orientation="horizontal"
               android:layout_width="fill_parent"
-              android:layout_height="fill_parent">
+              android:layout_height="fill_parent" android:paddingBottom="5dp">
 
 
     <ImageView android:id="@+id/i1"
-               android:layout_width="150px"
-               android:layout_height="150px"
-               android:layout_margin="5px"/>
+               android:layout_width="120px"
+               android:layout_height="120px"
+               />
 
     <ImageView android:id="@+id/i2"
-               android:layout_width="150px"
-               android:layout_height="150px"
-               android:layout_margin="5px"/>
+               android:layout_width="120px"
+               android:layout_height="120px"
+               />
     <ImageView android:id="@+id/i3"
-               android:layout_width="150px"
-               android:layout_height="150px"
-               android:layout_margin="5px"/>
+               android:layout_width="120px"
+               android:layout_height="120px"
+               />
     <ImageView android:id="@+id/i4"
-               android:layout_width="150px"
-               android:layout_height="150px"
-               android:layout_margin="5px"/>
+               android:layout_width="120px"
+               android:layout_height="120px"
+               />
     <ImageView android:id="@+id/i5"
-               android:layout_width="150px"
-               android:layout_height="150px"
-               android:layout_margin="5px"/>
+               android:layout_width="120px"
+               android:layout_height="120px"
+               />
 
 </LinearLayout>

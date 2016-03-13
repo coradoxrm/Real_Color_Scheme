@@ -5,19 +5,19 @@
               android:layout_height="fill_parent"
 >
     <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="300dp"
+            android:layout_height="300dp"
             android:id="@+id/Camera"
             android:background="@drawable/cam"
             android:layout_gravity="center_horizontal" android:layout_weight="1"/>
     <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="300dp"
+            android:layout_height="300dp"
             android:background="@drawable/album"
             android:id="@+id/Album" android:layout_gravity="center_horizontal" android:layout_weight="1"/>
     <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="300dp"
+            android:layout_height="300dp"
             android:background="@drawable/repo"
             android:id="@+id/Repo" android:layout_gravity="center_horizontal" android:layout_weight="1"/>
 </LinearLayout>

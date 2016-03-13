@@ -12,6 +12,7 @@ import android.provider.MediaStore;
 import android.text.format.DateFormat;
 import android.util.Log;
 import android.view.View;
+import android.view.Window;
 import android.widget.Button;
 import android.os.Environment;
 import android.view.View.OnClickListener;
@@ -34,6 +35,7 @@ public class MainActivity extends Activity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.main);
 
         camBtn = (Button) findViewById(R.id.Camera);

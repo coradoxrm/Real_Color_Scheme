@@ -12,6 +12,7 @@ import android.os.Environment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
 import android.widget.*;
 
 import java.io.File;
@@ -28,7 +29,9 @@ public class SchemeActivity extends ListActivity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.scheme);
+
 
         cluster = new Cluster();
         Bitmap bitmap = BitmapFactory.decodeFile(Global.filename);
