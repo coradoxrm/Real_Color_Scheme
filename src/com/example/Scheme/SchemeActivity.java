@@ -15,8 +15,6 @@ import android.view.ViewGroup;
 import android.widget.*;
 
 import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
@@ -24,29 +22,45 @@ public class SchemeActivity extends ListActivity {
 
     private List<Map<String, Object>> mData;
     private Button iter,ok,no;
+    private Cluster cluster;
+
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.scheme);
 
+        cluster = new Cluster();
         Bitmap bitmap = BitmapFactory.decodeFile(Global.filename);
+        cluster.setImage(bitmap);
+        cluster.initSeed();
+        cluster.updateCluster();
+
+//        System.out.println("seed");
+//        for (int i = 0; i < 5; i++) {
+//            cluster.seed[i].print();
+//        }
+//        System.out.println("----------");
+
         ((ImageView) findViewById(R.id.image)).setImageBitmap(bitmap);
 
-        //
+//list
         mData = getData();
         MyAdapter adapter = new MyAdapter(this);
         setListAdapter(adapter);
+
 
         iter = (Button)findViewById(R.id.iter);
         iter.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                    Map<String, Object> map = new HashMap<String, Object>();
-                    map.put("title", "G1");
-                    map.put("info", "google 1");
-                    map.put("img", R.drawable.cam);
+                cluster.updateSeed();
+                cluster.updateCluster();
 
+                Map<String, Object> map = new HashMap<String, Object>();
+                for(int i = 0 ; i < cluster.getSeedNum() ; i++) {
+                    map.put(String.valueOf(i), cluster.schemeNodes[cluster.getIndex()-1][i]);
+                }
                     mData.add(map);
                     adapter.notifyDataSetChanged();
             }
@@ -62,6 +76,8 @@ public class SchemeActivity extends ListActivity {
                 String filename = format.format(date) + ".jpg";
 
                 String destDirName = Environment.getExternalStorageDirectory() + "/repo/";
+                //String destDirName = "/sdcard/repo/";
+
                 File destDir = new File(destDirName);
                 if (!destDir.exists())
                     destDir.mkdirs();
@@ -98,16 +114,28 @@ public class SchemeActivity extends ListActivity {
 
     }
 
-
-
     private List<Map<String, Object>> getData() {
         List<Map<String, Object>> list = new ArrayList<Map<String, Object>>();
 
         Map<String, Object> map = new HashMap<String, Object>();
-        map.put("title", "G1");
-        map.put("info", "google 1");
-        map.put("img", R.drawable.cam);
+        for(int i = 0 ; i < cluster.getSeedNum() ; i++) {
+            map.put(String.valueOf(i), cluster.schemeNodes[cluster.getIndex()-1][i]);
+        }
+
+//            System.out.println("seed");
+////        for (int i = 0; i < 5; i++) {
+////            cluster.seed[i].print();
+////        }
+////        System.out.println("----------");
+
         list.add(map);
+
+
+//        Map<String, Object> map = new HashMap<String, Object>();
+//        map.put("title", "G1");
+//        map.put("info", "google 1");
+//        map.put("img", R.drawable.cam);
+//        list.add(map);
 
         return list;
     }
@@ -155,12 +183,20 @@ public class SchemeActivity extends ListActivity {
             }else
                 holder = (ViewHolder)convertView.getTag();
 
-            //holder.img.setBackgroundResource((Integer)mData.get(position).get("img"));
-            holder.i1.setBackgroundColor(Color.rgb(255,0,0));
-            holder.i2.setBackgroundColor(Color.rgb(255,255,0));
-            holder.i3.setBackgroundColor(Color.rgb(255,0,255));
-            holder.i4.setBackgroundColor(Color.rgb(0,255,0));
-            holder.i5.setBackgroundColor(Color.rgb(0,0,255));
+            //holder.i1.setBackgroundResource((Node)mData.get(position).get("0"));
+
+            Node tmp = (Node)mData.get(position).get("0");
+            holder.i1.setBackgroundColor(Color.rgb(tmp.r,tmp.g,tmp.b));
+            tmp = (Node)mData.get(position).get("1");
+            holder.i2.setBackgroundColor(Color.rgb(tmp.r,tmp.g,tmp.b));
+            tmp = (Node)mData.get(position).get("2");
+            holder.i3.setBackgroundColor(Color.rgb(tmp.r,tmp.g,tmp.b));
+            tmp = (Node)mData.get(position).get("3");
+            holder.i4.setBackgroundColor(Color.rgb(tmp.r,tmp.g,tmp.b));
+            tmp = (Node)mData.get(position).get("4");
+            holder.i5.setBackgroundColor(Color.rgb(tmp.r,tmp.g,tmp.b));
+
+
 
             return convertView;
         }
