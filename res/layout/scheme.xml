@@ -21,7 +21,7 @@
         <Button
                 android:layout_width="fill_parent"
                 android:layout_height="fill_parent"
-                android:text="true"
+                android:text="send"
                 android:id="@+id/ok" android:layout_weight="1"/>
         <Button
                 android:layout_width="fill_parent"
@@ -31,7 +31,7 @@
         <Button
                 android:layout_width="fill_parent"
                 android:layout_height="fill_parent"
-                android:text="false"
+                android:text="back"
                 android:id="@+id/no" android:layout_weight="1"/>
     </LinearLayout>
 </LinearLayout>

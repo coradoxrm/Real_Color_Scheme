@@ -16,6 +16,7 @@ import android.view.Window;
 import android.widget.*;
 
 import java.io.File;
+import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
@@ -24,6 +25,7 @@ public class SchemeActivity extends ListActivity {
     private List<Map<String, Object>> mData;
     private Button iter,ok,no;
     private Cluster cluster;
+    private int location;
 
 
     @Override
@@ -39,11 +41,6 @@ public class SchemeActivity extends ListActivity {
         cluster.initSeed();
         cluster.updateCluster();
 
-//        System.out.println("seed");
-//        for (int i = 0; i < 5; i++) {
-//            cluster.seed[i].print();
-//        }
-//        System.out.println("----------");
 
         ((ImageView) findViewById(R.id.image)).setImageBitmap(bitmap);
 
@@ -95,11 +92,15 @@ public class SchemeActivity extends ListActivity {
                 Context context = SchemeActivity.this;
                 context.sendBroadcast(new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE,Uri.parse("file://"+ destDirName  +  filename)));
 
+                try
+                {
+                    sendData(location);
+                }
+                catch (IOException ex) { }
+
             }
 
         });
-
-
 
         no = (Button)findViewById(R.id.no);
         no.setOnClickListener(new View.OnClickListener() {
@@ -109,11 +110,28 @@ public class SchemeActivity extends ListActivity {
                 startActivity(intent);
 
             }
-
         });
 
+    }
 
+    @Override
+    protected void onListItemClick(ListView l, View v, int position, long id) {
+        super.onListItemClick(l, v, position, id);
+        Toast.makeText(SchemeActivity.this, "You click: " + position, Toast.LENGTH_SHORT).show();
+        location = position;
 
+    }
+
+    void sendData(int position) throws IOException
+    {
+        //String msg = myTextbox.getText().toString()
+        String msg = cluster.schemeNodes[position][0].r +  "," +
+                cluster.schemeNodes[position][0].g +  "," +
+                cluster.schemeNodes[position][0].b;
+
+        msg += "\n";
+        Global.mmOutputStream.write(msg.getBytes());
+        //myLabel.setText("Data Sent");
 
     }
 
@@ -124,12 +142,6 @@ public class SchemeActivity extends ListActivity {
         for(int i = 0 ; i < cluster.getSeedNum() ; i++) {
             map.put(String.valueOf(i), cluster.schemeNodes[cluster.getIndex()-1][i]);
         }
-
-//            System.out.println("seed");
-////        for (int i = 0; i < 5; i++) {
-////            cluster.seed[i].print();
-////        }
-////        System.out.println("----------");
 
         list.add(map);
 
