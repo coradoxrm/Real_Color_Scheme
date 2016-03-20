@@ -52,10 +52,12 @@ public class Cluster {
         }
     }
 
-    public void setImage(Bitmap b) {
+    public boolean setImage(Bitmap b) {
         if(b != null) {
             image = b;
+            return true;
         }
+        return false;
     }
 
     private double pow(int n, int r) {

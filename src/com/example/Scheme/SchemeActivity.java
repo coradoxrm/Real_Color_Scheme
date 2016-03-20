@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Environment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -26,6 +27,7 @@ public class SchemeActivity extends ListActivity {
     private Button iter,ok,no;
     private Cluster cluster;
     private int location;
+    private MyAdapter adapter;
 
 
     @Override
@@ -37,17 +39,22 @@ public class SchemeActivity extends ListActivity {
 
         cluster = new Cluster();
         Bitmap bitmap = BitmapFactory.decodeFile(Global.filename);
-        cluster.setImage(bitmap);
-        cluster.initSeed();
-        cluster.updateCluster();
+
+        if(cluster.setImage(bitmap)) {
+            //Log.d("bitmap","not null");
+            debug("bitmap not null");
+            cluster.initSeed();
+            cluster.updateCluster();
+            ((ImageView) findViewById(R.id.image)).setImageBitmap(bitmap);
+            mData = getData();
+            adapter = new MyAdapter(this);
+            setListAdapter(adapter);
+        }
+        else {
+            debug("bitmap null");
+        }
 
 
-        ((ImageView) findViewById(R.id.image)).setImageBitmap(bitmap);
-
-//list
-        mData = getData();
-        MyAdapter adapter = new MyAdapter(this);
-        setListAdapter(adapter);
 
 
         iter = (Button)findViewById(R.id.iter);
@@ -71,32 +78,32 @@ public class SchemeActivity extends ListActivity {
         ok.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Date date = new Date();
-                SimpleDateFormat format = new SimpleDateFormat("yyyyMMddHHmmss"); // 格式化时间
-                String filename = format.format(date) + ".jpg";
-
-                String destDirName = Environment.getExternalStorageDirectory() + "/repo/";
-                //String destDirName = "/sdcard/repo/";
-
-                File destDir = new File(destDirName);
-                if (!destDir.exists())
-                    destDir.mkdirs();
-
-                File srcFile = new File(Global.filename);
-                if(!srcFile.exists() || !srcFile.isFile())
-                    return;
-
-                File f = new File(destDirName  +  filename);
-                srcFile.renameTo(f);
-
-                Context context = SchemeActivity.this;
-                context.sendBroadcast(new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE,Uri.parse("file://"+ destDirName  +  filename)));
+//                Date date = new Date();
+//                SimpleDateFormat format = new SimpleDateFormat("yyyyMMddHHmmss"); // 格式化时间
+//                String filename = format.format(date) + ".jpg";
+//                String destDirName = Environment.getExternalStorageDirectory() + "/repo/";
+//                File destDir = new File(destDirName);
+//                if (!destDir.exists())
+//                    destDir.mkdirs();
+//
+//                File srcFile = new File(Global.filename);
+//                if(!srcFile.exists() || !srcFile.isFile())
+//                    return;
+//
+//                File f = new File(destDirName  +  filename);
+//                srcFile.renameTo(f);
+//
+//                Context context = SchemeActivity.this;
+//                context.sendBroadcast(new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE,Uri.parse("file://"+ destDirName  +  filename)));
 
                 try
                 {
                     sendData(location);
+                    debug("senddata");
                 }
-                catch (IOException ex) { }
+                catch (IOException ex) {
+                    debug("ioexception");
+                }
 
             }
 
@@ -124,15 +131,19 @@ public class SchemeActivity extends ListActivity {
 
     void sendData(int position) throws IOException
     {
-        //String msg = myTextbox.getText().toString()
         String msg = cluster.schemeNodes[position][0].r +  "," +
                 cluster.schemeNodes[position][0].g +  "," +
                 cluster.schemeNodes[position][0].b;
 
         msg += "\n";
-        Global.mmOutputStream.write(msg.getBytes());
-        //myLabel.setText("Data Sent");
 
+        //Toast.makeText(SchemeActivity.this,"send: " + msg, Toast.LENGTH_SHORT).show();
+        debug(msg);
+        Global.mmOutputStream.write(msg.getBytes());
+    }
+
+    void debug(String s) {
+        Toast.makeText(SchemeActivity.this,s, Toast.LENGTH_SHORT).show();
     }
 
     private List<Map<String, Object>> getData() {
@@ -142,16 +153,7 @@ public class SchemeActivity extends ListActivity {
         for(int i = 0 ; i < cluster.getSeedNum() ; i++) {
             map.put(String.valueOf(i), cluster.schemeNodes[cluster.getIndex()-1][i]);
         }
-
         list.add(map);
-
-
-//        Map<String, Object> map = new HashMap<String, Object>();
-//        map.put("title", "G1");
-//        map.put("info", "google 1");
-//        map.put("img", R.drawable.cam);
-//        list.add(map);
-
         return list;
     }
 

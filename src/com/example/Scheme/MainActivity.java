@@ -274,14 +274,6 @@ public class MainActivity extends Activity {
         Global.workerThread.start();
     }
 
-//    void sendData() throws IOException
-//    {
-//        String msg = myTextbox.getText().toString();
-//        msg += "\n";
-//        mmOutputStream.write(msg.getBytes());
-//        myLabel.setText("Data Sent");
-//    }
-
     void closeBT() throws IOException
     {
         Global.stopWorker = true;

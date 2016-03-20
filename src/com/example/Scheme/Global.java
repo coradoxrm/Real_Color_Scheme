@@ -3,8 +3,6 @@ package com.example.Scheme;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothSocket;
-import android.net.Uri;
-
 import java.io.InputStream;
 import java.io.OutputStream;
 
