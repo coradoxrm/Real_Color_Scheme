@@ -3,35 +3,45 @@
               android:orientation="vertical"
               android:layout_width="match_parent"
               android:layout_height="match_parent"
-              android:weightSum="1">
+              android:weightSum="1"
+              android:background="#ebebeb">
 
     <ImageView
             android:layout_width="wrap_content"
-            android:layout_height="400dp"
-            android:id="@+id/image" android:layout_gravity="top|center_horizontal"/>
+            android:layout_height="350dp"
+            android:id="@+id/image"
+            android:layout_gravity="top|center_horizontal"/>
     <ListView
             android:layout_width="match_parent"
             android:layout_height="158dp"
             android:id="@android:id/list"
-            android:layout_weight="0.77"/>
-    <LinearLayout
-            android:orientation="horizontal"
+            android:layout_marginTop="20dp"
+            android:layout_weight="1" />
+
+    <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="100dp" android:gravity="bottom" android:layout_gravity="bottom">
+            android:layout_height="wrap_content"
+            android:gravity="bottom|center_horizontal" >
         <Button
-                android:layout_width="fill_parent"
-                android:layout_height="fill_parent"
-                android:text="send"
-                android:id="@+id/ok" android:layout_weight="1"/>
+                android:id="@+id/ok"
+                android:layout_width="150dp"
+                android:layout_height="150dp"
+                android:layout_marginLeft="10dp"
+                android:background="@drawable/send"/>
         <Button
-                android:layout_width="fill_parent"
-                android:layout_height="fill_parent"
-                android:text="iter"
-                android:id="@+id/iter" android:layout_weight="1"/>
+                android:id="@+id/iter"
+                android:layout_width="150dp"
+                android:layout_height="150dp"
+                android:background="@drawable/iterate"
+                android:layout_toRightOf="@id/ok"/>
         <Button
-                android:layout_width="fill_parent"
-                android:layout_height="fill_parent"
-                android:text="back"
-                android:id="@+id/no" android:layout_weight="1"/>
-    </LinearLayout>
+                android:id="@+id/no"
+                android:layout_width="150dp"
+                android:layout_height="150dp"
+                android:background="@drawable/cancel"
+                android:layout_toRightOf="@id/iter"
+                android:layout_marginRight="10dp"/>
+
+    </RelativeLayout>
+
 </LinearLayout>
