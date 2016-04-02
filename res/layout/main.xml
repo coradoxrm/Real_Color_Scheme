@@ -7,14 +7,14 @@
 
     <ImageView
                 android:layout_width="wrap_content"
-                android:layout_height="400dp"
+                android:layout_height="250dp"
                 android:src="@drawable/img" />
 
     <RelativeLayout
-                android:layout_width="420dp"
-                android:layout_height="420dp"
+                android:layout_width="340dp"
+                android:layout_height="340dp"
                 android:layout_gravity="center"
-                android:layout_marginTop="80dp" >
+                android:layout_marginTop="25dp">
         <Button
                 android:id="@+id/Camera"
                 android:layout_width="150dp"
