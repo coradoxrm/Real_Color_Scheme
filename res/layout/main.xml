@@ -7,6 +7,7 @@
 
     <ImageView
                 android:layout_width="wrap_content"
+<<<<<<< HEAD
                 android:layout_height="213dp"
                 android:src="@drawable/img" />
 
@@ -15,6 +16,16 @@
                 android:layout_height="320dp"
                 android:layout_gravity="center"
                 android:layout_marginTop="5dp" >
+=======
+                android:layout_height="250dp"
+                android:src="@drawable/img" />
+
+    <RelativeLayout
+                android:layout_width="340dp"
+                android:layout_height="340dp"
+                android:layout_gravity="center"
+                android:layout_marginTop="25dp">
+>>>>>>> f9c6f47c39012c32cbdb9777c60df0a6ae0d869a
         <Button
                 android:id="@+id/Camera"
                 android:layout_width="150dp"
