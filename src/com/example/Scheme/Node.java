@@ -8,6 +8,6 @@ public class Node {
 
 
     public void print() {
-        System.out.println("r: " + r + ", g: " + g + ", b: " + b);
+        System.out.println("r: " + r + ", g: " + g + ", b: " + b + ", light: " + (r+g+b)/3);
     }
 }
