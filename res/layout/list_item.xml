@@ -6,7 +6,6 @@
 
 
     <ImageView android:id="@+id/i1"
-<<<<<<< HEAD
                android:layout_width="65px"
                android:layout_height="65px"
     />
@@ -27,27 +26,5 @@
                android:layout_width="65px"
                android:layout_height="65px"
     />
-=======
-               android:layout_width="150px"
-               android:layout_height="150px"
-               />
-
-    <ImageView android:id="@+id/i2"
-               android:layout_width="150px"
-               android:layout_height="150px"
-               />
-    <ImageView android:id="@+id/i3"
-               android:layout_width="150px"
-               android:layout_height="150px"
-               />
-    <ImageView android:id="@+id/i4"
-               android:layout_width="150px"
-               android:layout_height="150px"
-               />
-    <ImageView android:id="@+id/i5"
-               android:layout_width="150px"
-               android:layout_height="150px"
-               />
->>>>>>> f9c6f47c39012c32cbdb9777c60df0a6ae0d869a
 
 </LinearLayout>
