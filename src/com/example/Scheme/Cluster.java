@@ -41,12 +41,23 @@ public class Cluster {
 
     public void readColors() {
         counter = 0;
-        for (int x = 0; x < width; x += mosaicWidth) {
-            for (int y = 0; y < height; y += mosaicHeight) {
-                int pixel = image.getPixel(x, y);
-                imageNodes[counter].r = (pixel & 0xff0000) >> 16;
-                imageNodes[counter].g = (pixel & 0xff00) >> 8;
-                imageNodes[counter].b = (pixel & 0xff);
+        for (int i = 0; i < width; i += mosaicWidth) {
+            for (int j = 0; j < height; j += mosaicHeight) {
+                int pixel = image.getPixel(i, j);
+                int r = (pixel & 0xff0000) >> 16;
+                int g = (pixel & 0xff00) >> 8;
+                int b = (pixel & 0xff);
+                double c = (double)(255 - r) / 255;
+                double m = (double)(255 - g) / 255;
+                double y = (double)(255 - b) / 255;
+                double k = (double)Math.min(c, Math.min(m, y));
+
+//                System.out.println(k);
+                if (k > 0.5) continue;
+                imageNodes[counter].r = r;
+                imageNodes[counter].g = g;
+                imageNodes[counter].b = b;
+//                System.out.println(r+" "+g+" "+b+" "+(r+g+b)/3);
                 counter++;
             }
         }
@@ -102,6 +113,7 @@ public class Cluster {
 
         for (int i = 0; i < seedNum; i++) {
             seed[i] = imageNodes[counter / seedNum * i];
+//            seed[i].print();
         }
 
 //        System.out.println("seed");

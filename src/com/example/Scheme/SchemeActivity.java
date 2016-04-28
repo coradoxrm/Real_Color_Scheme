@@ -132,9 +132,16 @@ public class SchemeActivity extends ListActivity {
 
     void sendData(int position) throws IOException
     {
-        String msg = cluster.schemeNodes[position][0].r +  "," +
-                cluster.schemeNodes[position][0].g +  "," +
-                cluster.schemeNodes[position][0].b;
+        int r = cluster.schemeNodes[position][0].r;
+        int g = cluster.schemeNodes[position][0].g;
+        int b = cluster.schemeNodes[position][0].b;
+        int c = (255 - r) * 100 / 255;
+        int m = (255 - g) * 100 / 255;
+        int y = (255 - b) * 100 / 255;
+        int w = ((100 - c) + (100 - m) + (100 - y)) / 3;
+
+
+        String msg = c +  "," + m +  "," + y + "," + w;
 
         msg += "\n";
 
