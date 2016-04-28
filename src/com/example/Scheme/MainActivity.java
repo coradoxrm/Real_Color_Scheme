@@ -1,6 +1,7 @@
 package com.example.Scheme;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 import android.content.ContentResolver;
@@ -11,6 +12,7 @@ import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Message;
 import android.provider.MediaStore;
 import android.text.format.DateFormat;
 import android.util.Log;
@@ -35,7 +37,8 @@ public class MainActivity extends Activity {
     private Button camBtn = null;
     private Button albumBtn = null;
     private Button btBtn = null;
-    TextView info;
+    //TextView info;
+    ProgressDialog myDialog;
 
     private String filename = "/sdcard/temp.jpg";
     Uri imageUri;
@@ -77,29 +80,47 @@ public class MainActivity extends Activity {
         });
 
         btBtn = (Button) findViewById(R.id.Bluetooth);
+        if(Global.btState == true) {
+            btBtn.setBackgroundResource(R.drawable.bluetooth_connected);
+        }
+        else
+            btBtn.setBackgroundResource(R.drawable.bluetooth);
+
         btBtn.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(!Global.btState) {
-                    try {
-                        findBT();
-                        openBT();
-                        Global.btState = !Global.btState;
-                    } catch (IOException ex) {
-                    }
+                if(Global.btState == false) {
+                    myDialog = ProgressDialog.show(MainActivity.this, "Connect to Pallete", "Please wait...", true, false);
+
+                    new Thread(){
+
+                        @Override
+                        public void run() {
+                            try {
+
+                                findBT();
+                                openBT();
+                                Global.btState = true;
+                            } catch (IOException ex) {
+                            }
+                            handler.sendEmptyMessage(0);
+                        }}.start();
+
                 }
                 else {
                     try
                     {
                         closeBT();
-                        Global.btState = !Global.btState;
+                        Global.btState = false;
+                        btBtn.setBackgroundResource(R.drawable.bluetooth);
+
                     }
                     catch (IOException ex) { }
                 }
             }
         });
 
-        info = (TextView)findViewById(R.id.info);
+        //info = (TextView)findViewById(R.id.info);
 
 
 
@@ -156,13 +177,25 @@ public class MainActivity extends Activity {
 
     }
 
+    private Handler handler = new Handler(){
+
+        @Override
+        public void handleMessage(Message msg) {
+
+            //关闭ProgressDialog
+            myDialog.dismiss();
+            btBtn.setBackgroundResource(R.drawable.bluetooth_connected);
+            //更新UI
+            //statusTextView.setText("Completed!");
+        }};
+
     void findBT()
     {
         Global.mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
-        if(Global.mBluetoothAdapter == null)
-        {
-            info.setText("No bluetooth adapter available");
-        }
+//        if(Global.mBluetoothAdapter == null)
+//        {
+//            info.setText("No bluetooth adapter available");
+//        }
 
         if(!Global.mBluetoothAdapter.isEnabled())
         {
@@ -182,7 +215,7 @@ public class MainActivity extends Activity {
                 }
             }
         }
-        info.setText("Bluetooth Device Found");
+        //info.setText("Bluetooth Device Found");
     }
 
     void openBT() throws IOException
@@ -214,12 +247,12 @@ public class MainActivity extends Activity {
         beginListenForData();
         Log.d("openBt","listen");
 
-        info.setText("Bluetooth Opened");
+        //info.setText("Bluetooth Opened");
     }
 
     void beginListenForData()
     {
-        final Handler handler = new Handler();
+        //final Handler handler = new Handler();
         final byte delimiter = 10; //This is the ASCII code for a newline character
 
         Global.stopWorker = false;
@@ -247,14 +280,6 @@ public class MainActivity extends Activity {
                                     System.arraycopy(Global.readBuffer, 0, encodedBytes, 0, encodedBytes.length);
                                     final String data = new String(encodedBytes, "US-ASCII");
                                     Global.readBufferPosition = 0;
-
-                                    handler.post(new Runnable()
-                                    {
-                                        public void run()
-                                        {
-                                           info.setText(data);
-                                        }
-                                    });
                                 }
                                 else
                                 {
@@ -280,6 +305,6 @@ public class MainActivity extends Activity {
         Global.mmOutputStream.close();
         Global. mmInputStream.close();
         Global.mmSocket.close();
-        info.setText("Bluetooth Closed");
+        //info.setText("Bluetooth Closed");
     }
 }
