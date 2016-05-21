@@ -4,6 +4,7 @@ import android.app.ListActivity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.graphics.Bitmap;
@@ -28,6 +29,8 @@ public class SchemeActivity extends ListActivity {
     private Cluster cluster;
     private int location;
     private MyAdapter adapter;
+
+    private int r,g,b;
 
 
     @Override
@@ -126,25 +129,40 @@ public class SchemeActivity extends ListActivity {
         super.onListItemClick(l, v, position, id);
         Toast.makeText(SchemeActivity.this, "You click: " + position, Toast.LENGTH_SHORT).show();
         location = position;
-
     }
 
-    void sendData(int position) throws IOException
+    private void sendData(int position) throws IOException
     {
-        int r = cluster.schemeNodes[position][0].r;
-        int g = cluster.schemeNodes[position][0].g;
-        int b = cluster.schemeNodes[position][0].b;
-        int c = (255 - r) * 100 / 255;
-        int m = (255 - g) * 100 / 255;
-        int y = (255 - b) * 100 / 255;
+        //int r = cluster.schemeNodes[position][0].r;
+        //int g = cluster.schemeNodes[position][0].g;
+        //int b = cluster.schemeNodes[position][0].b;
+        //int c = (255 - r) * 100 / 255;
+        //int m = (255 - g) * 100 / 255;
+        //int y = (255 - b) * 100 / 255;
+        //int w = ((100 - c) + (100 - m) + (100 - y)) / 3;
+
+        int _r = (r*100)/255;
+        int _g = (g*100)/255;
+        int _b = (b*100)/255;
+        int _max = Math.max(Math.max(_r,_g),_b);
+        int k = 100 -_max;
+        int c = (_max-_r)*100/_max;
+        int m = (_max-_g)*100/_max;
+        int y = (_max-_b)*100/_max;
+
         int w = ((100 - c) + (100 - m) + (100 - y)) / 3;
 
+//        int _max = Math.max(Math.max(r,g),b);
+//        int k = 100 -_max;
+//        int c = (_max-r)*100/_max;
+//        int m = (_max-g)*100/_max;
+//        int y = (_max-b)*100/_max;
+//        int w = ((100 - c) + (100 - m) + (100 - y)) / 3;
 
-        String msg = c +  "," + m +  "," + y + "," + w;
-
+        String msg = c +  "," + m +  "," + y + "," + k;
         msg += "\n";
 
-        //Toast.makeText(SchemeActivity.this,"send: " + msg, Toast.LENGTH_SHORT).show();
+        Toast.makeText(SchemeActivity.this,"send: " + msg, Toast.LENGTH_SHORT).show();
         debug(msg);
         Global.mmOutputStream.write(msg.getBytes());
     }
@@ -192,22 +210,56 @@ public class SchemeActivity extends ListActivity {
             return 0;
         }
 
+        private void setRGB(int color) {
+            r = (color >> 16) & 0xFF;
+            g = (color >> 8) & 0xFF;
+            b = (color >> 0) & 0xFF;
+            Toast.makeText(SchemeActivity.this,"color: " +  r + "," + g + "," + b, Toast.LENGTH_SHORT).show();
+        }
+
         @Override
         public View getView(int position, View convertView, ViewGroup parent) {
             ViewHolder holder = null;
             if (convertView == null) {
                 holder=new ViewHolder();
                 convertView = mInflater.inflate(R.layout.list_item, null);
+                final ViewHolder finalHolder = holder;
                 holder.i1 = (ImageView)convertView.findViewById(R.id.i1);
+                holder.i1.setOnClickListener(new View.OnClickListener(){
+                    public void onClick(View view) {
+                        ColorDrawable draw = (ColorDrawable)finalHolder.i1.getBackground();
+                        setRGB(draw.getColor());
+                    }});
                 holder.i2 = (ImageView)convertView.findViewById(R.id.i2);
+                holder.i2.setOnClickListener(new View.OnClickListener(){
+                    public void onClick(View view) {
+                        ColorDrawable draw = (ColorDrawable)finalHolder.i2.getBackground();
+                        setRGB(draw.getColor());
+                    }});
+
                 holder.i3 = (ImageView)convertView.findViewById(R.id.i3);
+                holder.i3.setOnClickListener(new View.OnClickListener(){
+                    public void onClick(View view) {
+                        ColorDrawable draw = (ColorDrawable)finalHolder.i3.getBackground();
+                        setRGB(draw.getColor());
+                    }});
                 holder.i4 = (ImageView)convertView.findViewById(R.id.i4);
+                holder.i4.setOnClickListener(new View.OnClickListener(){
+                    public void onClick(View view) {
+                        ColorDrawable draw = (ColorDrawable)finalHolder.i4.getBackground();
+                        setRGB(draw.getColor());
+                    }});
                 holder.i5 = (ImageView)convertView.findViewById(R.id.i5);
+                holder.i5.setOnClickListener(new View.OnClickListener(){
+                    public void onClick(View view) {
+                        ColorDrawable draw = (ColorDrawable)finalHolder.i5.getBackground();
+                        setRGB(draw.getColor());
+                    }});
+
                 convertView.setTag(holder);
+
             }else
                 holder = (ViewHolder)convertView.getTag();
-
-            //holder.i1.setBackgroundResource((Node)mData.get(position).get("0"));
 
             Node tmp = (Node)mData.get(position).get("0");
             holder.i1.setBackgroundColor(Color.rgb(tmp.r,tmp.g,tmp.b));
@@ -219,8 +271,6 @@ public class SchemeActivity extends ListActivity {
             holder.i4.setBackgroundColor(Color.rgb(tmp.r,tmp.g,tmp.b));
             tmp = (Node)mData.get(position).get("4");
             holder.i5.setBackgroundColor(Color.rgb(tmp.r,tmp.g,tmp.b));
-
-
 
             return convertView;
         }
