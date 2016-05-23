@@ -33,10 +33,13 @@ import java.util.Locale;
 import java.util.Set;
 import java.util.UUID;
 
+import static org.apache.log4j.helpers.LogLog.debug;
+
 public class MainActivity extends Activity {
     private Button camBtn = null;
     private Button albumBtn = null;
     private Button btBtn = null;
+    private Button repoBtn = null;
     //TextView info;
     ProgressDialog myDialog;
 
@@ -122,6 +125,17 @@ public class MainActivity extends Activity {
 
         //info = (TextView)findViewById(R.id.info);
 
+        repoBtn = (Button) findViewById(R.id.Repository);
+        repoBtn.setOnClickListener(new OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(Intent.ACTION_PICK,
+                        android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);//调用android的图库
+                startActivityForResult(intent, 3);
+            }
+
+        });
 
 
     }
@@ -164,8 +178,12 @@ public class MainActivity extends Activity {
                     }
 
                     Global.filename = filename;
-
-                    Intent intent=new Intent(MainActivity.this,SchemeActivity.class);
+                    Intent intent;
+                    if (requestCode == 3) {
+                        intent = new Intent(MainActivity.this, MyMeanShift.class);
+                    } else {
+                        intent = new Intent(MainActivity.this,SchemeActivity.class);
+                    }
                     startActivity(intent);
                     this.finish();
                 }

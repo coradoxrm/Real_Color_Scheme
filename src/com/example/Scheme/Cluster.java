@@ -15,7 +15,6 @@ import android.graphics.Bitmap;
 
 import java.io.*;
 
-
 public class Cluster {
     private static final long serialVersionUID = 1L;
     public static int seedNum = 5;
